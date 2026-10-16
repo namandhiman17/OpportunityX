@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpportunityX — Smart Student Opportunity Discovery</title>
+<meta name="description" content="OpportunityX discovers internships, hackathons, courses, and scholarships matched to your student profile with an honest recommendation score.">
+<meta name="theme-color" content="#4f46e5">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ccircle cx='14' cy='14' r='6' fill='none' stroke='white' stroke-width='3'/%3E%3Cpath d='M19 19l6 6' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="index.html" aria-label="OpportunityX Home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="#8b5cf6"/>
+          </linearGradient>
+        </defs>
+        <rect width="32" height="32" rx="9" fill="url(#g1)"/>
+        <circle cx="14.5" cy="14.5" r="5.5" fill="none" stroke="#fff" stroke-width="2.6"/>
+        <path d="M18.8 18.8l5.2 5.2" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="25" cy="7.5" r="2" fill="#fbbf24"/>
+      </svg>
+      <span class="brand-text">Opportunity<span class="brand-accent">X</span></span>
+    </a>
+    <div class="topbar-right">
+      <button id="trackerBtn" class="btn ghost small topbar-tracker-btn" type="button" aria-label="View Tracked Applications">
+        <span>📋 My Applications</span>
+        <span id="trackerCount" class="badge">0</span>
+      </button>
+      <span id="tfStatus" class="status-pill status-smart" role="status" aria-live="polite">
+        <span class="dot"></span><span id="tfStatusText">Smart Engine Ready</span>
+      </span>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle Dark Mode" title="Toggle theme">🌓</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============ HERO / PROFILE ============ -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-copy">
+      <h1 id="heroTitle">Find opportunities that <span class="grad">actually fit you</span>.</h1>
+      <p>OpportunityX connects you with current internships, hackathons, courses, and scholarships — then matches every result against your profile with a transparent recommendation score.</p>
+    </div>
+
+    <div class="panel profile-panel" id="profilePanel">
+      <div class="panel-head">
+        <h2>Your student profile</h2>
+        <button class="btn ghost small" id="toggleProfile" type="button" aria-expanded="true" aria-controls="profileForm">Hide</button>
+      </div>
+      <form id="profileForm" class="profile-grid" novalidate>
+        <div class="field">
+          <label for="fEducation"><span>Education</span></label>
+          <input type="text" id="fEducation" name="education" list="education-list" placeholder="BTech" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="fYear"><span>Year</span></label>
+          <select id="fYear" name="year">
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+            <option value="5th Year">5th Year</option>
+            <option value="Graduate">Graduate</option>
+            <option value="Postgraduate">Postgraduate</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fLocation"><span>Location</span></label>
+          <input type="text" id="fLocation" name="location" placeholder="India" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="fWork"><span>Work preference</span></label>
+          <select id="fWork" name="workPreference">
+            <option value="Any">Any</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="On-site">On-site</option>
+          </select>
+        </div>
+        <div class="field span-2">
+          <label for="fSkills"><span>Skills <em>(comma separated)</em></span></label>
+          <input type="text" id="fSkills" name="skills" placeholder="Python, AI, Web Development" autocomplete="off">
+        </div>
+        <div class="field span-2">
+          <label for="fInterests"><span>Interests <em>(comma separated)</em></span></label>
+          <input type="text" id="fInterests" name="interests" placeholder="Artificial Intelligence" autocomplete="off">
+        </div>
+        <div class="field span-2">
+          <span>Looking for <em>(pick any)</em></span>
+          <div class="pref-chips" id="fPrefs" role="group" aria-label="Opportunity preferences"></div>
+        </div>
+        <div class="field span-2 profile-submit-wrap">
+          <button type="submit" class="btn primary small" id="saveProfileBtn">Save Profile &amp; Match</button>
+        </div>
+      </form>
+
+      <!-- Datalist moved outside label for standards compliance -->
+      <datalist id="education-list">
+        <option value="BTech">BTech</option>
+        <option value="BE">BE</option>
+        <option value="BSc">BSc</option>
+        <option value="BCA">BCA</option>
+        <option value="BBA">BBA</option>
+        <option value="BCom">BCom</option>
+        <option value="BA">BA</option>
+        <option value="BDes">BDes</option>
+        <option value="BArch">BArch</option>
+        <option value="BPharm">BPharm</option>
+        <option value="MBBS">MBBS</option>
+        <option value="LLB">LLB</option>
+        <option value="MTech">MTech</option>
+        <option value="MBA">MBA</option>
+        <option value="MCA">MCA</option>
+        <option value="MSc">MSc</option>
+      </datalist>
+    </div>
+
+    <div class="panel search-panel">
+      <div class="field">
+        <label for="fQuery"><span>What are you looking for?</span></label>
+        <textarea id="fQuery" name="query" rows="2" placeholder="Find remote AI internships suitable for a first-year BTech student. (Press Enter to search)"></textarea>
+      </div>
+      <div class="search-row">
+        <button class="btn primary" id="discoverBtn" type="button">
+          <svg viewBox="0 0 20 20" aria-hidden="true" class="btn-icon"><circle cx="9" cy="9" r="5.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13.4 13.4l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>Discover Opportunities</span>
+        </button>
+        <button class="btn ghost" id="exampleBtn" type="button">Use example query</button>
+        <span class="hint">Leave empty to discover matched directly from your profile.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HEALTH / CONFIG BANNER ============ -->
+  <div id="configBanner" class="banner blue hidden" role="status"></div>
+
+  <!-- ============ LOADING ============ -->
+  <section id="loadingPanel" class="loading-panel hidden" aria-live="polite">
+    <div class="spinner" aria-hidden="true"></div>
+    <p id="loadingMessage" class="loading-message">Discovering opportunities...</p>
+    <p class="loading-sub">Analyzing real opportunities and computing profile compatibility scores...</p>
+    <div class="skeletons" aria-hidden="true">
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+  </section>
+
+  <!-- ============ ERROR ============ -->
+  <section id="errorPanel" class="banner red hidden" role="alert">
+    <div class="banner-body">
+      <strong id="errorTitle">Discovery failed</strong>
+      <p id="errorMessage"></p>
+      <p class="banner-note" id="errorNote"></p>
+    </div>
+    <div class="banner-actions">
+      <button class="btn primary small" id="retryBtn" type="button">Try Again</button>
+      <button class="btn ghost small" id="demoBtn" type="button">Show sample data instead</button>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <div id="results" class="hidden">
+    <div id="demoBanner" class="banner amber hidden" role="status"></div>
+
+    <div class="results-bar">
+      <div class="results-summary" id="resultsSummary"></div>
+      <div class="results-controls">
+        <label class="inline-field">Eligibility
+          <select id="eligibilityFilter" name="eligibility">
+            <option value="all">All Statuses</option>
+            <option value="eligible">🟢 Eligible Only</option>
+            <option value="needs_verification">🟡 Needs Verification</option>
+            <option value="ineligible">🔴 Ineligible Only</option>
+          </select>
+        </label>
+        <label class="inline-field">Work Mode
+          <select id="workModeFilter" name="workMode">
+            <option value="all">All Modes</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="On-site">On-site</option>
+          </select>
+        </label>
+        <label class="inline-field">Sort
+          <select id="sortSelect" name="sort">
+            <option value="match">Best match</option>
+            <option value="deadline">Closing soonest</option>
+            <option value="newest">Newest first</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="filters" id="categoryFilters" role="group" aria-label="Filter by category"></div>
+
+    <section class="deck" id="aiPicksSection" aria-labelledby="aiPicksHeading">
+      <div class="section-head">
+        <h2 id="aiPicksHeading">AI Picks <span class="count" id="aiPicksCount"></span></h2>
+        <p class="section-sub">Highest recommendation scores for your profile.</p>
+      </div>
+      <div class="cards" id="aiPicksGrid"></div>
+    </section>
+
+    <section class="deck" id="closingSoonSection" aria-labelledby="closingSoonHeading">
+      <div class="section-head">
+        <h2 id="closingSoonHeading">Closing Soon <span class="count" id="closingSoonCount"></span></h2>
+        <p class="section-sub">Deadlines within the next 7 days.</p>
+      </div>
+      <div class="cards" id="closingSoonGrid"></div>
+    </section>
+
+    <section class="deck" id="allSection" aria-labelledby="allHeading">
+      <div class="section-head">
+        <h2 id="allHeading">All Opportunities <span class="count" id="allCount"></span></h2>
+        <p class="section-sub" id="allSub"></p>
+      </div>
+      <div class="cards" id="allGrid"></div>
+      <p id="emptyState" class="empty hidden"></p>
+    </section>
+
+    <details class="notices hidden" id="notices">
+      <summary id="noticesSummary"></summary>
+      <ul id="noticesList"></ul>
+    </details>
+  </div>
+
+  <!-- ============ FIRST-RUN EMPTY ============ -->
+  <section id="welcome" class="welcome">
+    <div class="welcome-card">
+      <h3>How it works</h3>
+      <ol>
+        <li><strong>Set your profile</strong> — education, year, skills, interests, and target categories.</li>
+        <li><strong>Discovery Engine runs</strong> — searches verified student opportunities (internships, hackathons, courses, fellowships).</li>
+        <li><strong>Transparent Matching</strong> — each opportunity is scored (0–100) with a detailed breakdown of why it fits you.</li>
+      </ol>
+      <p class="welcome-note">Only verified application links are provided with an Apply button. Click any opportunity card to see full requirements and score factors.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p><strong>OpportunityX</strong> · Empowering students to find career opportunities that fit.</p>
+    <p class="fineprint">Match scores are personalized recommendation signals derived from your saved profile. Links direct to verified official organization portals.</p>
+  </div>
+</footer>
+
+<!-- ============ DETAILS MODAL ============ -->
+<div class="modal-overlay hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Close details">×</button>
+    <!-- Permanent h2 ensures aria-labelledby="modalTitle" always resolves -->
+    <h2 id="modalTitle" class="m-title">Opportunity Details</h2>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ============ APPLICATION TRACKER MODAL ============ -->
+<div class="modal-overlay hidden" id="trackerModalOverlay" role="dialog" aria-modal="true" aria-labelledby="trackerModalTitle">
+  <div class="modal tracker-modal">
+    <button class="modal-close" id="trackerModalClose" type="button" aria-label="Close tracker">×</button>
+    <h2 id="trackerModalTitle" class="m-title">My Tracked Applications</h2>
+    <div id="trackerModalBody"></div>
+  </div>
+</div>
+
+<!-- ============ TOAST CONTAINER ============ -->
+<div id="toastContainer" aria-live="polite"></div>
+
+<script src="app.js" defer></script>
+</body>
+</html>

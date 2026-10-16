@@ -1,0 +1,19 @@
+{
+  "name": "opportunityx",
+  "version": "1.0.0",
+  "description": "OpportunityX - Smart student opportunity discovery engine",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/eligibility.test.js"
+  },
+  "keywords": [
+    "opportunity",
+    "internships",
+    "hackathons",
+    "student",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT"
+}
